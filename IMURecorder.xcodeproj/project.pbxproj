@@ -1,0 +1,427 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		34D64C9C1E12EA08000A06CA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D64C9B1E12EA08000A06CA /* AppDelegate.swift */; };
+		34D64C9E1E12EA08000A06CA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D64C9D1E12EA08000A06CA /* ViewController.swift */; };
+		34D64CA11E12EA08000A06CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34D64C9F1E12EA08000A06CA /* Main.storyboard */; };
+		34D64CA31E12EA08000A06CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34D64CA21E12EA08000A06CA /* Assets.xcassets */; };
+		34D64CA61E12EA08000A06CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34D64CA41E12EA08000A06CA /* LaunchScreen.storyboard */; };
+		34D64CB11E12EA08000A06CA /* IMURecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D64CB01E12EA08000A06CA /* IMURecorderTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		34D64CAD1E12EA08000A06CA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34D64C901E12EA08000A06CA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34D64C971E12EA08000A06CA;
+			remoteInfo = IMURecorder;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		34D64C981E12EA08000A06CA /* IMURecorder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMURecorder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		34D64C9B1E12EA08000A06CA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		34D64C9D1E12EA08000A06CA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		34D64CA01E12EA08000A06CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		34D64CA21E12EA08000A06CA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		34D64CA51E12EA08000A06CA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		34D64CA71E12EA08000A06CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		34D64CAC1E12EA08000A06CA /* IMURecorderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IMURecorderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		34D64CB01E12EA08000A06CA /* IMURecorderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMURecorderTests.swift; sourceTree = "<group>"; };
+		34D64CB21E12EA08000A06CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		34D64C951E12EA08000A06CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34D64CA91E12EA08000A06CA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		34D64C8F1E12EA08000A06CA = {
+			isa = PBXGroup;
+			children = (
+				34D64C9A1E12EA08000A06CA /* IMURecorder */,
+				34D64CAF1E12EA08000A06CA /* IMURecorderTests */,
+				34D64C991E12EA08000A06CA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		34D64C991E12EA08000A06CA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				34D64C981E12EA08000A06CA /* IMURecorder.app */,
+				34D64CAC1E12EA08000A06CA /* IMURecorderTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		34D64C9A1E12EA08000A06CA /* IMURecorder */ = {
+			isa = PBXGroup;
+			children = (
+				34D64C9B1E12EA08000A06CA /* AppDelegate.swift */,
+				34D64C9D1E12EA08000A06CA /* ViewController.swift */,
+				34D64C9F1E12EA08000A06CA /* Main.storyboard */,
+				34D64CA21E12EA08000A06CA /* Assets.xcassets */,
+				34D64CA41E12EA08000A06CA /* LaunchScreen.storyboard */,
+				34D64CA71E12EA08000A06CA /* Info.plist */,
+			);
+			path = IMURecorder;
+			sourceTree = "<group>";
+		};
+		34D64CAF1E12EA08000A06CA /* IMURecorderTests */ = {
+			isa = PBXGroup;
+			children = (
+				34D64CB01E12EA08000A06CA /* IMURecorderTests.swift */,
+				34D64CB21E12EA08000A06CA /* Info.plist */,
+			);
+			path = IMURecorderTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		34D64C971E12EA08000A06CA /* IMURecorder */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 34D64CB51E12EA08000A06CA /* Build configuration list for PBXNativeTarget "IMURecorder" */;
+			buildPhases = (
+				34D64C941E12EA08000A06CA /* Sources */,
+				34D64C951E12EA08000A06CA /* Frameworks */,
+				34D64C961E12EA08000A06CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IMURecorder;
+			productName = IMURecorder;
+			productReference = 34D64C981E12EA08000A06CA /* IMURecorder.app */;
+			productType = "com.apple.product-type.application";
+		};
+		34D64CAB1E12EA08000A06CA /* IMURecorderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 34D64CB81E12EA08000A06CA /* Build configuration list for PBXNativeTarget "IMURecorderTests" */;
+			buildPhases = (
+				34D64CA81E12EA08000A06CA /* Sources */,
+				34D64CA91E12EA08000A06CA /* Frameworks */,
+				34D64CAA1E12EA08000A06CA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34D64CAE1E12EA08000A06CA /* PBXTargetDependency */,
+			);
+			name = IMURecorderTests;
+			productName = IMURecorderTests;
+			productReference = 34D64CAC1E12EA08000A06CA /* IMURecorderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		34D64C901E12EA08000A06CA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Washington Universtiy";
+				TargetAttributes = {
+					34D64C971E12EA08000A06CA = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = JXDLX6PN9M;
+						ProvisioningStyle = Automatic;
+					};
+					34D64CAB1E12EA08000A06CA = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = JXDLX6PN9M;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 34D64C971E12EA08000A06CA;
+					};
+				};
+			};
+			buildConfigurationList = 34D64C931E12EA08000A06CA /* Build configuration list for PBXProject "IMURecorder" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 34D64C8F1E12EA08000A06CA;
+			productRefGroup = 34D64C991E12EA08000A06CA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				34D64C971E12EA08000A06CA /* IMURecorder */,
+				34D64CAB1E12EA08000A06CA /* IMURecorderTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		34D64C961E12EA08000A06CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34D64CA61E12EA08000A06CA /* LaunchScreen.storyboard in Resources */,
+				34D64CA31E12EA08000A06CA /* Assets.xcassets in Resources */,
+				34D64CA11E12EA08000A06CA /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34D64CAA1E12EA08000A06CA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		34D64C941E12EA08000A06CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34D64C9E1E12EA08000A06CA /* ViewController.swift in Sources */,
+				34D64C9C1E12EA08000A06CA /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		34D64CA81E12EA08000A06CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				34D64CB11E12EA08000A06CA /* IMURecorderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		34D64CAE1E12EA08000A06CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34D64C971E12EA08000A06CA /* IMURecorder */;
+			targetProxy = 34D64CAD1E12EA08000A06CA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		34D64C9F1E12EA08000A06CA /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				34D64CA01E12EA08000A06CA /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		34D64CA41E12EA08000A06CA /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				34D64CA51E12EA08000A06CA /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		34D64CB31E12EA08000A06CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		34D64CB41E12EA08000A06CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		34D64CB61E12EA08000A06CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JXDLX6PN9M;
+				INFOPLIST_FILE = IMURecorder/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.wustl.cse.yanhang.IMURecorder;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		34D64CB71E12EA08000A06CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JXDLX6PN9M;
+				INFOPLIST_FILE = IMURecorder/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.wustl.cse.yanhang.IMURecorder;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		34D64CB91E12EA08000A06CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = JXDLX6PN9M;
+				INFOPLIST_FILE = IMURecorderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.wustl.cse.yanhang.IMURecorderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IMURecorder.app/IMURecorder";
+			};
+			name = Debug;
+		};
+		34D64CBA1E12EA08000A06CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = JXDLX6PN9M;
+				INFOPLIST_FILE = IMURecorderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.wustl.cse.yanhang.IMURecorderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IMURecorder.app/IMURecorder";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		34D64C931E12EA08000A06CA /* Build configuration list for PBXProject "IMURecorder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				34D64CB31E12EA08000A06CA /* Debug */,
+				34D64CB41E12EA08000A06CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		34D64CB51E12EA08000A06CA /* Build configuration list for PBXNativeTarget "IMURecorder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				34D64CB61E12EA08000A06CA /* Debug */,
+				34D64CB71E12EA08000A06CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		34D64CB81E12EA08000A06CA /* Build configuration list for PBXNativeTarget "IMURecorderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				34D64CB91E12EA08000A06CA /* Debug */,
+				34D64CBA1E12EA08000A06CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 34D64C901E12EA08000A06CA /* Project object */;
+}
