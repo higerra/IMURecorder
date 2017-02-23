@@ -97,21 +97,24 @@ class ViewController: UIViewController {
 			// start recording
 			customQueue.async {
 				if self.createFiles(){
-					// reset timer
-					self.secondCounter = 0
-					self.recordingTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {
-						(Timer) -> Void in
-						self.secondCounter += 1
-					})
+					DispatchQueue.main.async {
+						// reset timer
+						self.secondCounter = 0
+						self.recordingTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {
+							(Timer) -> Void in
+							self.secondCounter += 1
+						})
+						
+						// update UI
+						self.startButton.setTitle("Stop", for: .normal)
+						
+						// make sure the screen won't lock
+						UIApplication.shared.isIdleTimerDisabled = true
+					}
 					
-					// update UI
-					self.startButton.setTitle("Stop", for: .normal)
-					
-					// make sure the screen won't lock
-					UIApplication.shared.isIdleTimerDisabled = true
 					self.isRecording = true;
 				}else{
-					self.errorMsg(msg: "fileURL evaluated to nil")
+					self.errorMsg(msg: "Failed to create the file")
 					return
 				}
 			}
@@ -242,18 +245,37 @@ class ViewController: UIViewController {
 						self.oyLabel.text = String(format:"%.6f", curmotion.attitude.yaw)
 						self.ozLabel.text = String(format:"%.6f", curmotion.attitude.pitch)
 					}
-//					self.customQueue.async {
-//						if self.fileHandlers.count == self.kSensor && self.isRecording{
-//							let out_str = String(format: "%.0f %.6f %.6f %.6f\n",
-//							                     Date().timeIntervalSince1970 * self.mulSecondToNanoSecond,
-//							                     x, y, z)
-//							if let data_to_write = out_str.data(using: .utf8){
-//								self.fileHandlers[self.GYROSCOPE].write(data_to_write)
-//							}else{
-//								os_log("Failed to write data record", log: OSLog.default, type: .fault)
-//							}
-//						}
-//					}
+					self.customQueue.async {
+						if self.fileHandlers.count == self.kSensor && self.isRecording{
+							var out_str = String(format: "%.0f %.6f %.6f %.6f\n",
+							                     Date().timeIntervalSince1970 * self.mulSecondToNanoSecond,
+							                     curmotion.userAcceleration.x, curmotion.userAcceleration.y, curmotion.userAcceleration.z)
+							if let data_to_write = out_str.data(using: .utf8){
+								self.fileHandlers[self.LINEAR_ACCELERATION].write(data_to_write)
+							}else{
+								os_log("Failed to write data record", log: OSLog.default, type: .fault)
+							}
+							
+							out_str = String(format: "%.0f %.6f %.6f %.6f\n",
+							                 Date().timeIntervalSince1970 * self.mulSecondToNanoSecond,
+							                 curmotion.gravity.x, curmotion.gravity.y, curmotion.gravity.z)
+							if let data_to_write = out_str.data(using: .utf8){
+								self.fileHandlers[self.GRAVITY].write(data_to_write)
+							}else{
+								os_log("Failed to write data record", log: OSLog.default, type: .fault)
+							}
+							
+							// Notice that for attitude, the eular angle is displayed, but the quaternion form is recorded
+							out_str = String(format: "%.0f %.6f %.6f %.6f %.6f\n",
+							                 Date().timeIntervalSince1970 * self.mulSecondToNanoSecond,
+							                 curmotion.attitude.quaternion.x, curmotion.attitude.quaternion.y, curmotion.attitude.quaternion.z, curmotion.attitude.quaternion.w)
+							if let data_to_write = out_str.data(using: .utf8){
+								self.fileHandlers[self.ROTATION_VECTOR].write(data_to_write)
+							}else{
+								os_log("Failed to write data record", log: OSLog.default, type: .fault)
+							}
+						}
+					}
 				}
 			})
 		}
@@ -346,12 +368,22 @@ class ViewController: UIViewController {
 			var url = URL(fileURLWithPath: NSTemporaryDirectory())
 			url.appendPathComponent(fileNames[i])
 			self.fileURLs.append(url)
-			if !FileManager.default.fileExists(atPath: url.path){
-				if !FileManager.default.createFile(atPath: url.path, contents: header.data(using: String.Encoding.utf8), attributes: nil){
-					self.errorMsg(msg: "Can not create file \(self.fileNames[i])")
+			// Delete previous file
+			if FileManager.default.fileExists(atPath: url.path){
+				do{
+					try FileManager.default.removeItem(at: url)
+				}catch{
+					os_log("Can not remove previous file", log:.default, type:.error)
 					return false
 				}
+				
 			}
+			
+			if !FileManager.default.createFile(atPath: url.path, contents: header.data(using: String.Encoding.utf8), attributes: nil){
+				self.errorMsg(msg: "Can not create file \(self.fileNames[i])")
+				return false
+			}
+			
 			let fileHandle: FileHandle? = FileHandle(forWritingAtPath: url.path)
 			if let handle = fileHandle{
 				self.fileHandlers.append(handle)
