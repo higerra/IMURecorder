@@ -137,7 +137,7 @@ class ViewController: UIViewController {
 							                     curmotion.acceleration.y,
 							                     curmotion.acceleration.z)
 							if let data_to_write = out_str.data(using: .utf8){
-								outputFile.write(data_to_file)
+								outputFile.write(data_to_write)
 							}else{
 								os_log("Failed to write data record", log: OSLog.default, type=.fault)
 							}
