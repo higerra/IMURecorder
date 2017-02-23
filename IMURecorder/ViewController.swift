@@ -12,6 +12,14 @@ import os.log
 
 class ViewController: UIViewController {
 	
+	let kSensor = 6
+	let GYROSCOPE = 0
+	let ACCELEROMETER = 1
+	let LINEAR_ACCELERATION = 2
+	let GRAVITY = 3
+	let MAGNETOMETER = 4
+	let ROTATION_VECTOR = 5
+	
 	// MARK: properties
 	@IBOutlet weak var startButton: UIButton!
 	@IBOutlet weak var statusLabel: UILabel!
@@ -42,7 +50,6 @@ class ViewController: UIViewController {
 	let motionManager: CMMotionManager = CMMotionManager()
 	let customQueue: DispatchQueue = DispatchQueue(label: "edu.wustl.cse.IMURecorder.customQueue")
 	var recordingTimer: Timer = Timer()
-	var sampleTimer: Timer = Timer()
 	var secondCounter:Int64 = 0{
 		didSet{
 			statusLabel.text = interfaceIntTime(second: secondCounter)
@@ -59,15 +66,18 @@ class ViewController: UIViewController {
 	var isRecording: Bool = false
 	let defaultValue: Double = 0.0
 	
-	var imuFile: FileHandle?
-	var fileURL: URL?
+	var fileHandlers = [FileHandle]()
+	var fileURLs = [URL]()
+	var fileNames: [String] = ["gyro.txt", "acce.txt", "linacce.txt", "gravity.txt", "magnet.txt", "orientation.txt"]
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
 		self.statusLabel.text = "Standby"
-		//init timer
 		
+		self.customQueue.async {
+			self.startIMUUpdate()
+		}
 	}
 	
 	override func didReceiveMemoryWarning() {
@@ -75,125 +85,50 @@ class ViewController: UIViewController {
 		// Dispose of any resources that can be recreated.
 	}
 	
+	override func viewWillDisappear(_ animated: Bool) {
+		self.customQueue.sync {
+			self.stopIMUUpdate()
+		}
+	}
+	
 	// MARK: Actions
 	@IBAction func startStopRecording(_ sender: UIButton) {
 		if self.isRecording == false{
 			// start recording
 			customQueue.async {
-				let fileName = self.filenameFromTime()
-				//self.fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-				self.fileURL = URL(fileURLWithPath: NSTemporaryDirectory())
-				if self.fileURL != nil{
-					self.fileURL!.appendPathComponent(fileName)
-					if !FileManager.default.fileExists(atPath: self.fileURL!.path){
-						if !FileManager.default.createFile(atPath: self.fileURL!.path, contents: "test".data(using: String.Encoding.utf8), attributes: nil){
-							self.errorMsg(msg: "Can not create file at \(self.fileURL!.path)")
-							return
-						}
-					}else{
-						DispatchQueue.main.async {
-							let activityVC = UIActivityViewController(activityItems: [self.fileURL!], applicationActivities: nil)
-							self.present(activityVC, animated: true, completion: nil)
-						}
-					}
-					self.imuFile = FileHandle(forWritingAtPath: self.fileURL!.path)
-					if self.imuFile == nil{
-						self.errorMsg(msg: "Can not write to path\n \(self.fileURL!.path)")
-						return
-					}
+				if self.createFiles(){
+					// reset timer
+					self.secondCounter = 0
+					self.recordingTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {
+						(Timer) -> Void in
+						self.secondCounter += 1
+					})
 					
-					self.motionManager.gyroUpdateInterval = 1.0 / self.sampleFrequency
-					self.motionManager.accelerometerUpdateInterval = 1.0 / self.sampleFrequency
-					self.motionManager.startGyroUpdates()
-					self.motionManager.startAccelerometerUpdates()
-					self.motionManager.startDeviceMotionUpdates()
+					// update UI
+					self.startButton.setTitle("Stop", for: .normal)
+					
+					// make sure the screen won't lock
+					UIApplication.shared.isIdleTimerDisabled = true
+					self.isRecording = true;
 				}else{
 					self.errorMsg(msg: "fileURL evaluated to nil")
 					return
 				}
 			}
-			
-			// reset timer
-			self.secondCounter = 0
-			self.recordingTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {
-				(Timer) -> Void in
-				self.secondCounter += 1
-			})
-			
-			// Start motion update
-			self.motionManager.startAccelerometerUpdates(to: OperationQueue.main, withHandler: {
-				(motion: CMAccelerometerData?, error: Error?) -> Void in
-				if let curmotion = motion{
-					DispatchQueue.main.async {
-						self.axLabel.text = String(format:"%.6f", curmotion.acceleration.x)
-						self.ayLabel.text = String(format:"%.6f", curmotion.acceleration.y)
-						self.azLabel.text = String(format:"%.6f", curmotion.acceleration.z)
-					}
-					self.customQueue.async {
-						if let outputFile = self.imuFile{
-							let out_str = String(format: "%.0f %.6f %.6f %.6f\n",
-							                     Date().timeIntervalSince1970 * self.mulSecondToNanoSecond,
-							                     curmotion.acceleration.x,
-							                     curmotion.acceleration.y,
-							                     curmotion.acceleration.z)
-							if let data_to_write = out_str.data(using: .utf8){
-								outputFile.write(data_to_write)
-							}else{
-								os_log("Failed to write data record", log: OSLog.default, type=.fault)
-							}
-						}
-					}
-				}
-			})
-			
-			self.sampleTimer = Timer.scheduledTimer(withTimeInterval: 1.0 / sampleFrequency, repeats: true, block: {
-				(Timer) -> Void in
-				if let gyro = self.motionManager.gyroData{
-					if let accer = self.motionManager.accelerometerData{
-						if let outputFile = self.imuFile{
-							DispatchQueue.main.async {
-								self.recordCounter += 1
-								self.rxLabel.text = String(format:"%.6f", gyro.rotationRate.x)
-								self.ryLabel.text = String(format:"%.6f", gyro.rotationRate.y)
-								self.rzLabel.text = String(format:"%.6f", gyro.rotationRate.z)
-								self.axLabel.text = String(format:"%.6f", accer.acceleration.x * self.gravity)
-								self.ayLabel.text = String(format:"%.6f", accer.acceleration.y * self.gravity)
-								self.azLabel.text = String(format:"%.6f", accer.acceleration.z * self.gravity)
-							}
-							self.customQueue.async {
-								let out_str = String(format: "%.6f %.6f %.6f %.6f %.6f %.6f\n",
-								                    gyro.rotationRate.x, gyro.rotationRate.y, gyro.rotationRate.z,
-								                    accer.acceleration.x * self.gravity, accer.acceleration.y * self.gravity, accer.acceleration.z * self.gravity)
-								if let data_to_write = out_str.data(using: .utf8){
-									outputFile.write(data_to_write)
-								}else{
-									os_log("Failed to write data record", log: OSLog.default, type: .fault)
-								}
-							}
-						}
-					}
-				}
-			})
-			
-			// update UI
-			self.startButton.setTitle("Stop", for: .normal)
-			
-			// make sure the screen won't lock
-			UIApplication.shared.isIdleTimerDisabled = true
 		}else{
 			// stop recording and share file
 			if recordingTimer.isValid{
 				recordingTimer.invalidate()
-				sampleTimer.invalidate()
 			}
 			
 			customQueue.async {
-				self.motionManager.stopGyroUpdates()
-				self.motionManager.stopAccelerometerUpdates()
-				if let outfile = self.imuFile{
-					outfile.closeFile()
+				self.isRecording = false;
+				if self.fileHandlers.count == self.kSensor{
+					for handler in self.fileHandlers{
+						handler.closeFile()
+					}
 					DispatchQueue.main.async {
-						let activityVC = UIActivityViewController(activityItems: [self.fileURL!], applicationActivities: nil)
+						let activityVC = UIActivityViewController(activityItems: self.fileURLs, applicationActivities: nil)
 						self.present(activityVC, animated: true, completion: nil)
 					}
 				}
@@ -209,67 +144,165 @@ class ViewController: UIViewController {
 			self.gxLabel.text = String(format:"%.6f", self.defaultValue)
 			self.gyLabel.text = String(format:"%.6f", self.defaultValue)
 			self.gzLabel.text = String(format:"%.6f", self.defaultValue)
-			
+			self.lxLabel.text = String(format:"%.6f", self.defaultValue)
+			self.lyLabel.text = String(format:"%.6f", self.defaultValue)
+			self.lzLabel.text = String(format:"%.6f", self.defaultValue)
+			self.mxLabel.text = String(format:"%.6f", self.defaultValue)
+			self.myLabel.text = String(format:"%.6f", self.defaultValue)
+			self.mzLabel.text = String(format:"%.6f", self.defaultValue)
+			self.oxLabel.text = String(format:"%.6f", self.defaultValue)
+			self.oyLabel.text = String(format:"%.6f", self.defaultValue)
+			self.ozLabel.text = String(format:"%.6f", self.defaultValue)
 			
 			self.startButton.setTitle("Start", for: .normal)
 			self.statusLabel.text = "Standby"
 			
 			// resume screen lock
 			UIApplication.shared.isIdleTimerDisabled = false
-			
-			
 		}
-		self.isRecording = !self.isRecording
 	}
 	
-	// MARK: configure motion
-	/*private func startRecording(){
-		if self.motionManager.isDeviceMotionAvailable{
-			self.motionManager.deviceMotionUpdateInterval = self.sampleInterval
-			self.motionManager.startGyroUpdates(to: OperationQueue.main, withHandler: {
-				
-			})
-			
-			self.motionManager.startAccelerometerUpdates(to: OperationQueue.main, withHandler: withHandler{
-			})
-			
-			
-			self.motionManager.startDeviceMotionUpdates(using:.xArbitraryCorrectedZVertical, to: OperationQueue.main, withHandler: {
-				(motion: CMDeviceMotion?, error: Error?) -> Void in
-				DispatchQueue.main.async {
-					if let curmotion = motion{
-						self.recordCounter += 1
-						self.rxLabel.text = String(format:"%.6f", curmotion.rotationRate.x)
-						self.ryLabel.text = String(format:"%.6f", curmotion.rotationRate.y)
-						self.rzLabel.text = String(format:"%.6f", curmotion.rotationRate.z)
-						self.txLabel.text = String(format:"%.6f", curmotion.userAcceleration.x)
-						self.tyLabel.text = String(format:"%.6f", curmotion.userAcceleration.y)
-						self.tzLabel.text = String(format:"%.6f", curmotion.userAcceleration.z)
-						self.gxLabel.text = String(format:"%.6f", curmotion.gravity.x)
-						self.gyLabel.text = String(format:"%.6f", curmotion.gravity.y)
-						self.gzLabel.text = String(format:"%.6f", curmotion.gravity.z)
-						
-						self.customQueue.async {
-							if let outputFile = self.imuFile{
-								let out_str = String(format: "%.0f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f\n",
-								                     Date().timeIntervalSince1970 * self.mulSecondToNanoSecond,
-								                     curmotion.rotationRate.x, curmotion.rotationRate.y, curmotion.rotationRate.z,
-								                     curmotion.userAcceleration.x, curmotion.userAcceleration.y, curmotion.userAcceleration.z,
-								                     curmotion.gravity.x, curmotion.gravity.y, curmotion.gravity.z)
-								if let data_to_write = out_str.data(using: .utf8){
-									outputFile.write(data_to_write)
-								}else{
-									os_log("Failed to write data record", log: OSLog.default, type: .fault)
-								}
+	private func startIMUUpdate(){
+		self.motionManager.gyroUpdateInterval = 1.0 / self.sampleFrequency
+		self.motionManager.accelerometerUpdateInterval = 1.0 / self.sampleFrequency
+		self.motionManager.deviceMotionUpdateInterval = 1.0 / self.sampleFrequency
+		self.motionManager.magnetometerUpdateInterval = 1.0 / self.sampleFrequency
+		
+		// Start motion update
+		if !motionManager.isAccelerometerActive{
+			self.motionManager.startAccelerometerUpdates(to: OperationQueue.main, withHandler: {
+				(motion: CMAccelerometerData?, error: Error?) -> Void in
+				if let curmotion = motion{
+					let x = curmotion.acceleration.x * self.gravity
+					let y = curmotion.acceleration.y * self.gravity
+					let z = curmotion.acceleration.z * self.gravity
+					DispatchQueue.main.async {
+						self.axLabel.text = String(format:"%.6f", x)
+						self.ayLabel.text = String(format:"%.6f", y)
+						self.azLabel.text = String(format:"%.6f", z)
+					}
+					self.customQueue.async {
+						if self.fileHandlers.count == self.kSensor && self.isRecording{
+							let out_str = String(format: "%.0f %.6f %.6f %.6f\n",
+							                     Date().timeIntervalSince1970 * self.mulSecondToNanoSecond,
+							                     x, y, z)
+							if let data_to_write = out_str.data(using: .utf8){
+								self.fileHandlers[self.ACCELEROMETER].write(data_to_write)
+							}else{
+								os_log("Failed to write data record", log: OSLog.default, type: .fault)
 							}
 						}
-						
 					}
-
 				}
 			})
 		}
-	}*/
+		
+		if !motionManager.isGyroActive{
+			self.motionManager.startGyroUpdates(to: OperationQueue.main, withHandler: {
+				(motion: CMGyroData?, error: Error?) -> Void in
+				if let curmotion = motion{
+					let x = curmotion.rotationRate.x
+					let y = curmotion.rotationRate.y
+					let z = curmotion.rotationRate.z
+					DispatchQueue.main.async {
+						self.rxLabel.text = String(format:"%.6f", x)
+						self.ryLabel.text = String(format:"%.6f", y)
+						self.rzLabel.text = String(format:"%.6f", z)
+					}
+					self.customQueue.async {
+						if self.fileHandlers.count == self.kSensor && self.isRecording{
+							let out_str = String(format: "%.0f %.6f %.6f %.6f\n",
+							                     Date().timeIntervalSince1970 * self.mulSecondToNanoSecond,
+							                     x, y, z)
+							if let data_to_write = out_str.data(using: .utf8){
+								self.fileHandlers[self.GYROSCOPE].write(data_to_write)
+							}else{
+								os_log("Failed to write data record", log: OSLog.default, type: .fault)
+							}
+						}
+					}
+				}
+			})
+		}
+		
+		if !motionManager.isDeviceMotionActive{
+			self.motionManager.startDeviceMotionUpdates(to: OperationQueue.main, withHandler: {
+				(motion: CMDeviceMotion?, error: Error?) -> Void in
+				if let curmotion = motion{
+					DispatchQueue.main.async {
+						self.lxLabel.text = String(format:"%.6f", curmotion.userAcceleration.x)
+						self.lyLabel.text = String(format:"%.6f", curmotion.userAcceleration.y)
+						self.lzLabel.text = String(format:"%.6f", curmotion.userAcceleration.z)
+						
+						self.gxLabel.text = String(format:"%.6f", curmotion.gravity.x * self.gravity)
+						self.gyLabel.text = String(format:"%.6f", curmotion.gravity.y * self.gravity)
+						self.gzLabel.text = String(format:"%.6f", curmotion.gravity.z * self.gravity)
+						
+						self.oxLabel.text = String(format:"%.6f", curmotion.attitude.roll)
+						self.oyLabel.text = String(format:"%.6f", curmotion.attitude.yaw)
+						self.ozLabel.text = String(format:"%.6f", curmotion.attitude.pitch)
+					}
+//					self.customQueue.async {
+//						if self.fileHandlers.count == self.kSensor && self.isRecording{
+//							let out_str = String(format: "%.0f %.6f %.6f %.6f\n",
+//							                     Date().timeIntervalSince1970 * self.mulSecondToNanoSecond,
+//							                     x, y, z)
+//							if let data_to_write = out_str.data(using: .utf8){
+//								self.fileHandlers[self.GYROSCOPE].write(data_to_write)
+//							}else{
+//								os_log("Failed to write data record", log: OSLog.default, type: .fault)
+//							}
+//						}
+//					}
+				}
+			})
+		}
+		
+		if !motionManager.isMagnetometerActive{
+			self.motionManager.startMagnetometerUpdates(to: OperationQueue.main, withHandler: {
+				(motion: CMMagnetometerData?, error: Error?) -> Void in
+				if let curmotion = motion{
+					let x = curmotion.magneticField.x
+					let y = curmotion.magneticField.y
+					let z = curmotion.magneticField.z
+					DispatchQueue.main.async {
+						self.mxLabel.text = String(format:"%.6f", x)
+						self.myLabel.text = String(format:"%.6f", y)
+						self.mzLabel.text = String(format:"%.6f", z)
+					}
+					self.customQueue.async {
+						if self.fileHandlers.count == self.kSensor && self.isRecording{
+							let out_str = String(format: "%.0f %.6f %.6f %.6f\n",
+							                     Date().timeIntervalSince1970 * self.mulSecondToNanoSecond,
+							                     x, y, z)
+							if let data_to_write = out_str.data(using: .utf8){
+								self.fileHandlers[self.MAGNETOMETER].write(data_to_write)
+							}else{
+								os_log("Failed to write data record", log: OSLog.default, type: .fault)
+							}
+						}
+					}
+				}
+			})
+
+		}
+
+	}
+	
+	private func stopIMUUpdate(){
+		if self.motionManager.isGyroActive{
+			self.motionManager.stopGyroUpdates()
+		}
+		if self.motionManager.isAccelerometerActive{
+			self.motionManager.stopAccelerometerUpdates()
+		}
+		if self.motionManager.isMagnetometerActive{
+			self.motionManager.stopMagnetometerUpdates()
+		}
+		if self.motionManager.isDeviceMotionActive{
+			self.motionManager.stopDeviceMotionUpdates()
+		}
+	}
 	
 	// MARK: Utility functions
 	private func interfaceIntTime(second: Int64) -> String{
@@ -293,7 +326,7 @@ class ViewController: UIViewController {
 		}
 	}
 	
-	private func filenameFromTime() -> String{
+	private func timeToString() -> String{
 		let date = Date()
 		let calendar = Calendar.current
 		let year = calendar.component(.year, from: date)
@@ -302,8 +335,31 @@ class ViewController: UIViewController {
 		let hour = calendar.component(.hour, from: date)
 		let minute = calendar.component(.minute, from: date)
 		let sec = calendar.component(.second, from: date)
-		return String(format:"%04d%02d%02d_%02d%02d%02d.txt", year, month, day, hour, minute, sec)
+		return String(format:"%04d%02d%02d_%02d%02d%02dt", year, month, day, hour, minute, sec)
 	}
 	
+	private func createFiles() -> Bool{
+		self.fileHandlers.removeAll()
+		self.fileURLs.removeAll()
+		let header = "Created at \(self.timeToString())"
+		for i in 0...5{
+			var url = URL(fileURLWithPath: NSTemporaryDirectory())
+			url.appendPathComponent(fileNames[i])
+			self.fileURLs.append(url)
+			if !FileManager.default.fileExists(atPath: url.path){
+				if !FileManager.default.createFile(atPath: url.path, contents: header.data(using: String.Encoding.utf8), attributes: nil){
+					self.errorMsg(msg: "Can not create file \(self.fileNames[i])")
+					return false
+				}
+			}
+			let fileHandle: FileHandle? = FileHandle(forWritingAtPath: url.path)
+			if let handle = fileHandle{
+				self.fileHandlers.append(handle)
+			}else{
+				return false
+			}
+		}
+		return true
+	}
 }
 

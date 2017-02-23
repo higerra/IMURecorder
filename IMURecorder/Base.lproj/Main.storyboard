@@ -359,8 +359,6 @@
                         <outlet property="rzLabel" destination="4vL-bD-taL" id="gtc-vm-Q7r"/>
                         <outlet property="startButton" destination="RCu-PW-gQg" id="aoE-5G-vE1"/>
                         <outlet property="statusLabel" destination="bpg-Sw-5uV" id="3Nf-yR-Ggc"/>
-                        <outlet property="tyLabel" destination="hc8-gf-P1z" id="HHt-vZ-V9P"/>
-                        <outlet property="tzLabel" destination="mH7-SG-ZgP" id="hi5-nc-Ouy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
