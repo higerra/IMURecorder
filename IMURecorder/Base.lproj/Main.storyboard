@@ -22,7 +22,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ofQ-Kw-hwr">
-                                <rect key="frame" x="23" y="254" width="330" height="160"/>
+                                <rect key="frame" x="22.5" y="253.5" width="330" height="160"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fp8-XB-czO">
                                         <rect key="frame" x="0.0" y="0.0" width="330" height="20"/>
@@ -296,14 +296,6 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RCu-PW-gQg">
-                                <rect key="frame" x="163" y="607" width="49" height="40"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                <state key="normal" title="Start"/>
-                                <connections>
-                                    <action selector="startStopRecording:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8Qj-Bh-TXC"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Standby" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bpg-Sw-5uV">
                                 <rect key="frame" x="16" y="28" width="343" height="20"/>
                                 <constraints>
@@ -313,27 +305,23 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ejl-KW-IMP">
-                                <rect key="frame" x="16" y="56" width="343" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="8lX-4Z-gWF"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RCu-PW-gQg">
+                                <rect key="frame" x="163" y="205.5" width="49" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <state key="normal" title="Start"/>
+                                <connections>
+                                    <action selector="startStopRecording:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8Qj-Bh-TXC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Ejl-KW-IMP" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="2dY-WH-VI0"/>
+                            <constraint firstItem="ofQ-Kw-hwr" firstAttribute="top" secondItem="RCu-PW-gQg" secondAttribute="bottom" constant="8" id="709-jb-OIG"/>
                             <constraint firstItem="RCu-PW-gQg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CSs-py-hpg"/>
                             <constraint firstItem="ofQ-Kw-hwr" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="KQL-xG-QTP"/>
-                            <constraint firstItem="Ejl-KW-IMP" firstAttribute="top" secondItem="bpg-Sw-5uV" secondAttribute="bottom" constant="8" id="Q9e-uT-pmE"/>
                             <constraint firstItem="bpg-Sw-5uV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="ZXE-ez-PB8"/>
-                            <constraint firstAttribute="trailing" secondItem="Ejl-KW-IMP" secondAttribute="trailing" constant="16" id="edD-J8-iEf"/>
                             <constraint firstItem="bpg-Sw-5uV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="hoY-0E-8VZ"/>
                             <constraint firstAttribute="trailing" secondItem="bpg-Sw-5uV" secondAttribute="trailing" constant="16" id="hsR-TF-iE9"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="RCu-PW-gQg" secondAttribute="bottom" constant="20" id="lS1-05-6ap"/>
                             <constraint firstItem="ofQ-Kw-hwr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="p2E-3m-eLh"/>
                         </constraints>
                     </view>
@@ -341,7 +329,6 @@
                         <outlet property="axLabel" destination="x5z-73-QOC" id="rMv-TO-xdU"/>
                         <outlet property="ayLabel" destination="hc8-gf-P1z" id="daU-WN-aDA"/>
                         <outlet property="azLabel" destination="mH7-SG-ZgP" id="rEl-os-X3a"/>
-                        <outlet property="counterLabel" destination="Ejl-KW-IMP" id="3t5-D4-o8W"/>
                         <outlet property="gxLabel" destination="IEf-MM-cQH" id="SgL-ok-Ctm"/>
                         <outlet property="gyLabel" destination="ixT-or-eQj" id="pfv-vl-sax"/>
                         <outlet property="gzLabel" destination="JYD-5N-K0W" id="ENI-aF-Mv3"/>
