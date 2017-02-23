@@ -13,6 +13,7 @@
 		34D64CA31E12EA08000A06CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34D64CA21E12EA08000A06CA /* Assets.xcassets */; };
 		34D64CA61E12EA08000A06CA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34D64CA41E12EA08000A06CA /* LaunchScreen.storyboard */; };
 		34D64CB11E12EA08000A06CA /* IMURecorderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D64CB01E12EA08000A06CA /* IMURecorderTests.swift */; };
+		34D64CBC1E1306FD000A06CA /* IMUStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D64CBB1E1306FD000A06CA /* IMUStream.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		34D64CAC1E12EA08000A06CA /* IMURecorderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IMURecorderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		34D64CB01E12EA08000A06CA /* IMURecorderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMURecorderTests.swift; sourceTree = "<group>"; };
 		34D64CB21E12EA08000A06CA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		34D64CBB1E1306FD000A06CA /* IMUStream.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IMUStream.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				34D64CA21E12EA08000A06CA /* Assets.xcassets */,
 				34D64CA41E12EA08000A06CA /* LaunchScreen.storyboard */,
 				34D64CA71E12EA08000A06CA /* Info.plist */,
+				34D64CBB1E1306FD000A06CA /* IMUStream.swift */,
 			);
 			path = IMURecorder;
 			sourceTree = "<group>";
@@ -201,6 +204,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34D64CBC1E1306FD000A06CA /* IMUStream.swift in Sources */,
 				34D64C9E1E12EA08000A06CA /* ViewController.swift in Sources */,
 				34D64C9C1E12EA08000A06CA /* AppDelegate.swift in Sources */,
 			);
