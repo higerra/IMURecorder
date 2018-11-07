@@ -43,8 +43,7 @@ class ViewController: UIViewController {
 	@IBOutlet weak var oyLabel: UILabel!
 	@IBOutlet weak var ozLabel: UILabel!
 	
-	let sampleInterval: TimeInterval = 1.0 / 30.0;
-	let sampleFrequency: TimeInterval = 100
+	let sampleFrequency: TimeInterval = 200
 	let gravity: Double = 9.81
 	
 	let motionManager: CMMotionManager = CMMotionManager()
@@ -68,7 +67,7 @@ class ViewController: UIViewController {
 	
 	var fileHandlers = [FileHandle]()
 	var fileURLs = [URL]()
-	var fileNames: [String] = ["gyro.txt", "acce.txt", "linacce.txt", "gravity.txt", "magnet.txt", "orientation.txt"]
+	var fileNames: [String] = ["gyro.txt", "acce.txt", "linacce.txt", "gravity.txt", "magnet.txt", "game_rv.txt"]
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -240,8 +239,8 @@ class ViewController: UIViewController {
 						self.gxLabel.text = String(format:"%.6f", curmotion.gravity.x * self.gravity)
 						self.gyLabel.text = String(format:"%.6f", curmotion.gravity.y * self.gravity)
 						self.gzLabel.text = String(format:"%.6f", curmotion.gravity.z * self.gravity)
-						
-						self.oxLabel.text = String(format:"%.6f", curmotion.attitude.roll)
+
+                        self.oxLabel.text = String(format:"%.6f", curmotion.attitude.roll)
 						self.oyLabel.text = String(format:"%.6f", curmotion.attitude.yaw)
 						self.ozLabel.text = String(format:"%.6f", curmotion.attitude.pitch)
 					}
